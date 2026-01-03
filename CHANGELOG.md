@@ -1,0 +1,123 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.9.1] - 2026-01-03
+
+### Fixed
+- **CRITICAL**: WiFi startup sequence - synchronous connection in setup() to ensure proper initialization order
+- Display blank screen for 10+ seconds on boot (now shows time after ~15 seconds)
+- "DNS resolution failed" errors during startup
+- Sunrise/sunset labels cut off on 128px screen (removed labels, arrows are self-explanatory)
+
+### Changed
+- Hybrid WiFi model: synchronous in setup(), async reconnect in loop()
+- Display formatting: superscript degree symbol and lowercase 'c' for temperature
+- Sunrise/sunset screen now shows daylight duration (e.g., "Day 9h 41m") instead of static "Sun Times" text
+
+### Documentation
+- Added detailed v1.9.1_HYBRID_FIX.md explaining startup sequence problem and solution
+
+## [1.9.0] - 2026-01-02
+
+### Added
+- Fully async architecture (zero blocking operations in loop)
+- Custom async NTP implementation (manual UDP packet handling)
+- Async HTTP weather fetch (AsyncHTTPRequest library)
+- Exponential backoff retry logic for network failures
+- Independent epoch tracking for accurate time between NTP syncs
+
+### Changed
+- Replaced blocking NTPClient with custom async UDP implementation
+- Replaced blocking HTTP weather with AsyncHTTPRequest
+- Removed all delay() calls from loop()
+- WiFi connection now async (later fixed in v1.9.1)
+
+### Performance
+- Loop time: 10ms → <1ms (10x improvement)
+- Weather fetch: 1-10s blocking → 0ms
+- NTP sync: 5-20s blocking → 0ms
+- WiFi reconnect: 15s blocking → 0ms
+- OTA updates now work during active weather fetching
+
+### Technical
+- RAM usage: +536 bytes (36,980 → 37,516)
+- Flash usage: +1040 bytes (407,500 → 408,540)
+- IRAM: 61,987 bytes (94% - stable)
+
+## [1.8.0] - 2026-01-01
+
+### Security
+- **CRITICAL**: Removed hardcoded WiFi credentials
+- Integrated WiFiManager for secure captive portal setup
+- Added config validation (magic number check)
+- Input sanitization to prevent buffer overflows
+
+### Fixed
+- IRAM overflow crisis (94% → 70% via ICACHE_FLASH_ATTR)
+- NTP interval bug (config value was ignored, always used hardcoded 1 hour)
+- Boolean parsing errors in JSON config import/export
+- Infinite loop protection in display mode rotation
+- Memory leaks from String concatenation in web handlers
+
+### Changed
+- Web responses now use chunked transfer (eliminated 140+ String concatenations)
+- Applied ICACHE_FLASH_ATTR to 26 functions (moved code from IRAM to Flash)
+- Improved error handling throughout codebase
+
+### Performance
+- Peak heap usage reduced by ~8KB
+- EEPROM validation prevents loading corrupted config
+
+## [1.7.0] - 2025-12-31
+
+### Added
+- Initial working firmware with correct display support
+- NTP time synchronization
+- Weather data from Open-Meteo API (free, no API key required)
+- OTA update support (web-based and ArduinoOTA)
+- Web interface (/, /config, /debug, /update)
+- REST API (time, status, weather, config export/import)
+- Display rotation (time, weather, sunrise/sunset modes)
+- Timezone support with manual DST configuration
+- EEPROM configuration persistence
+
+### Hardware Discovery
+- Identified display as GM009605v4.3 (not TM1637 or TM1650)
+- Discovered swapped I2C pins: SDA=GPIO0, SCL=GPIO2
+- Switched to Adafruit_SSD1306 library
+
+### Replaced
+- QWeather API → Open-Meteo (no registration required)
+- Proprietary firmware → Open source custom firmware
+- Insecure WiFi handling → WiFiManager with timeout
+
+## [1.6.0] - 2025-12-30 (unreleased)
+
+### Attempted
+- TM1650 LED driver support (incorrect - device has OLED)
+
+## [1.5.0] - 2025-12-29 (unreleased)
+
+### Attempted
+- TM1637 7-segment display support (incorrect - device has OLED)
+
+---
+
+## Version Numbering
+
+- **Major version** (X.0.0): Breaking changes, incompatible config format
+- **Minor version** (1.X.0): New features, backward-compatible
+- **Patch version** (1.9.X): Bug fixes, no new features
+
+## Links
+
+- [Full v1.9 Release Notes](docs/v1.9_RELEASE_NOTES.md)
+- [v1.9.1 Hybrid Fix Details](docs/v1.9.1_HYBRID_FIX.md)
+
+---
+
+**Status**: v1.9.1 is production-ready and actively used 24/7.
