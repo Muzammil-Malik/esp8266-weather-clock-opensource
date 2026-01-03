@@ -1,10 +1,20 @@
 # Reverse Engineering a $12 AliExpress Weather Clock: A Security Story
 
 <p align="center">
-  <img src="https://img.shields.io/badge/ESP8266-ESP--01S-blue?style=flat-square" />
-  <img src="https://img.shields.io/badge/Firmware-v1.9.1-green?style=flat-square" />
-  <img src="https://img.shields.io/badge/OTA-Enabled-orange?style=flat-square" />
-  <img src="https://img.shields.io/badge/Status-Production%20Ready-brightgreen?style=flat-square" />
+  <a href="https://github.com/petrochen/esp8266-weather-clock-opensource/releases">
+    <img src="https://img.shields.io/github/v/release/petrochen/esp8266-weather-clock-opensource?style=flat-square&label=Release&color=green" alt="Release">
+  </a>
+  <a href="https://github.com/petrochen/esp8266-weather-clock-opensource/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/petrochen/esp8266-weather-clock-opensource?style=flat-square&label=License&color=blue" alt="License">
+  </a>
+  <a href="https://github.com/petrochen/esp8266-weather-clock-opensource/actions/workflows/build.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/petrochen/esp8266-weather-clock-opensource/build.yml?style=flat-square&label=Build" alt="Build Status">
+  </a>
+  <a href="https://github.com/petrochen/esp8266-weather-clock-opensource/issues">
+    <img src="https://img.shields.io/github/issues/petrochen/esp8266-weather-clock-opensource?style=flat-square&label=Issues&color=orange" alt="Issues">
+  </a>
+  <img src="https://img.shields.io/badge/ESP8266-ESP--01S-blue?style=flat-square" alt="Hardware">
+  <img src="https://img.shields.io/badge/Status-Production%20Ready-brightgreen?style=flat-square" alt="Status">
 </p>
 
 ## TL;DR
