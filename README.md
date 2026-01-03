@@ -1,4 +1,4 @@
-# Reverse Engineering a $12 AliExpress Weather Clock: A Security Story
+# Reverse Engineering a €5 AliExpress Weather Clock: A Security Story
 
 <p align="center">
   <a href="https://github.com/petrochen/esp8266-weather-clock-opensource/releases">
@@ -76,7 +76,7 @@ This is a textbook example of poor IoT security design. No thanks.
 
 **Product**: ESP8266 Mini Weather Clock Kit
 **Model**: TJ-56-654
-**Price**: ~$12 USD
+**Price**: ~€5 EUR
 **Source**: [AliExpress Link](https://pt.aliexpress.com/item/1005008333782531.html)
 
 ### Original Hardware Specifications
@@ -899,7 +899,7 @@ The original firmware had security holes you could drive a truck through. The cu
 - ✅ Integrates with Home Assistant (coming soon)
 - ✅ Is completely auditable (you're reading the source)
 
-Total cost: $12 hardware + a weekend of tinkering.
+Total cost: €5 hardware + a weekend of tinkering.
 
 If you have one of these devices, **flash this firmware**. If you're buying IoT gadgets, **always audit them first**. And if something seems insecure, **fix it yourself** - that's the hacker spirit.
 
