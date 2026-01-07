@@ -1,6 +1,6 @@
 /*
  * web_server.cpp - Web server handlers
- * TJ-56-654 Weather Clock v1.9.2
+ * TJ-56-654 Weather Clock v1.9.3
  */
 
 #include "globals.h"

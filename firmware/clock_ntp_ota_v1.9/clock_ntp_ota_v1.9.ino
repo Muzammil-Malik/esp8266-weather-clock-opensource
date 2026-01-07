@@ -1,5 +1,5 @@
 /*
- * TJ-56-654 Weather Clock - Custom NTP Firmware with OTA v1.9.2
+ * TJ-56-654 Weather Clock - Custom NTP Firmware with OTA v1.9.3
  *
  * Hardware:
  * - ESP-01S (ESP8266)

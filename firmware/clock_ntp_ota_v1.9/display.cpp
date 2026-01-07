@@ -1,6 +1,6 @@
 /*
  * display.cpp - Display functions for OLED
- * TJ-56-654 Weather Clock v1.9.2
+ * TJ-56-654 Weather Clock v1.9.3
  */
 
 #include "globals.h"

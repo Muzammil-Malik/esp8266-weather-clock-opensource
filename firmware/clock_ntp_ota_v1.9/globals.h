@@ -1,6 +1,6 @@
 /*
  * globals.h - Global variables and extern declarations
- * TJ-56-654 Weather Clock v1.9.2
+ * TJ-56-654 Weather Clock v1.9.3
  */
 
 #ifndef GLOBALS_H

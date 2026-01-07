@@ -1,6 +1,6 @@
 /*
  * weather.cpp - Weather API functions
- * TJ-56-654 Weather Clock v1.9.2
+ * TJ-56-654 Weather Clock v1.9.3
  */
 
 // Include AsyncHTTPRequest BEFORE globals.h to provide full type definition

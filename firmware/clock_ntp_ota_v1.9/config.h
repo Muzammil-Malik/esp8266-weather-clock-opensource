@@ -1,6 +1,6 @@
 /*
  * config.h - Configuration structures and constants
- * TJ-56-654 Weather Clock v1.9.2
+ * TJ-56-654 Weather Clock v1.9.3
  */
 
 #ifndef CONFIG_H
@@ -9,7 +9,7 @@
 #include <Arduino.h>
 
 // Firmware version
-#define FIRMWARE_VERSION "1.9.2"
+#define FIRMWARE_VERSION "1.9.3"
 
 // OLED I2C Configuration
 #define I2C_SDA 0  // GPIO0 (I2C Data) - SWAPPED!
