@@ -7,9 +7,6 @@
   <a href="https://github.com/petrochen/esp8266-weather-clock-opensource/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/petrochen/esp8266-weather-clock-opensource?style=flat-square&label=License&color=blue" alt="License">
   </a>
-  <a href="https://github.com/petrochen/esp8266-weather-clock-opensource/actions/workflows/build.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/petrochen/esp8266-weather-clock-opensource/build.yml?style=flat-square&label=Build" alt="Build Status">
-  </a>
   <a href="https://github.com/petrochen/esp8266-weather-clock-opensource/issues">
     <img src="https://img.shields.io/github/issues/petrochen/esp8266-weather-clock-opensource?style=flat-square&label=Issues&color=orange" alt="Issues">
   </a>
@@ -30,7 +27,7 @@ I bought a cute weather clock kit from AliExpress ([TJ-56-654](https://pt.aliexp
 - [The Investigation](#the-investigation)
 - [The Solution: Custom Firmware](#the-solution-custom-firmware)
 - [Technical Deep Dive](#technical-deep-dive)
-- [The Journey: v1.7 → v1.9.1](#the-journey-v17--v191)
+- [The Journey: v1.7 → v1.9.2](#the-journey-v17--v192)
 - [What's Next: Home Assistant Integration](#whats-next-home-assistant-integration)
 - [How to Flash This Firmware](#how-to-flash-this-firmware)
 - [Web Interface](#web-interface)
@@ -378,7 +375,7 @@ Wire.begin(0, 2);  // SDA=GPIO0, SCL=GPIO2
 
 ---
 
-## The Journey: v1.7 → v1.9.1
+## The Journey: v1.7 → v1.9.2
 
 ### v1.7: Display Discovery ✅
 
@@ -423,7 +420,7 @@ Wire.begin(0, 2);  // SDA=GPIO0, SCL=GPIO2
 
 **Result**: Device stays responsive during OTA updates while weather is fetching!
 
-### v1.9.1: Hybrid Fix (Current) 🎯
+### v1.9.1: Hybrid Fix 🎯
 
 **Problem Discovered:**
 
@@ -454,6 +451,59 @@ void setup() {
 - ✅ Proper initialization order guaranteed
 - ✅ Device never freezes on WiFi loss during operation
 
+### v1.9.2: WiFi Resilience (Current) 🛡️
+
+**Problem Discovered:**
+
+After WiFi outages, the device would **clear stored credentials** and enter AP mode, requiring manual reconfiguration every time the router restarted.
+
+**Root Cause:**
+
+Aggressive credential clearing on connection failure:
+```cpp
+if (wifiRetry.currentRetry >= wifiRetry.maxRetries) {
+  memset(config.ssid, 0, sizeof(config.ssid));     // ❌ Clears credentials!
+  memset(config.password, 0, sizeof(config.password));
+  saveConfig();
+  // Enter AP mode...
+}
+```
+
+**Solution: Resilient WiFi**
+
+| Feature | Before (v1.9.1) | After (v1.9.2) |
+|---------|-----------------|----------------|
+| Credential clearing | After 5 failed attempts | Never |
+| Retry strategy | Give up after 5 tries | Infinite with backoff |
+| Max retry interval | N/A | 5 minutes |
+| Fallback AP | After clearing credentials | After ~5 min (dual STA+AP mode) |
+| Clock during outage | Blank display | Shows last synced time |
+
+**Key Changes:**
+- **Never clear credentials** on connection failure
+- **Exponential backoff**: 5s → 10s → 20s → ... → 5min max
+- **Fallback AP** ("TJ56654-Setup") enabled after ~5 min, while still retrying
+- **Dual STA+AP mode**: Device continues reconnect attempts while AP is active
+- **SDK credentials support**: Tries WiFiManager-stored credentials first, then EEPROM
+- **"No WiFi" display**: Shows retry countdown instead of cryptic numbers
+- **"!" indicator**: Shown in date line when WiFi disconnected
+
+**Network Activity Summary:**
+
+| Service | Interval | Endpoint | Protocol |
+|---------|----------|----------|----------|
+| NTP | 1 hour | pool.ntp.org:123 | UDP |
+| Weather | 30 min | api.open-meteo.com | HTTP |
+| mDNS | continuous | 224.0.0.251 | UDP multicast |
+
+~50 requests/day total.
+
+**Results:**
+- ✅ Credentials persist through WiFi outages
+- ✅ Device automatically reconnects when WiFi returns
+- ✅ Clock continues running with last synced time
+- ✅ User can reconfigure via fallback AP if needed
+
 **Startup Timeline:**
 ```
 [0-5s]   Display init, startup animation
@@ -472,7 +522,8 @@ void setup() {
 | v1.7 | 34,980 (43%) | **61,987 (94%)** | 407,500 (38%) | IRAM crisis |
 | v1.8 | 36,980 (46%) | **45,120 (68%)** | 407,800 (38%) | ICACHE_FLASH_ATTR fix |
 | v1.9.0 | 37,516 (46%) | **61,987 (94%)** | 408,540 (38%) | Async libs added |
-| v1.9.1 | 37,644 (46%) | **61,987 (94%)** | 408,844 (38%) | Production ready |
+| v1.9.1 | 37,644 (46%) | **61,987 (94%)** | 408,844 (38%) | Hybrid WiFi fix |
+| v1.9.2 | 37,800 (47%) | **61,987 (94%)** | 409,100 (39%) | WiFi resilience |
 
 **Verdict**: Stable memory usage, no leaks detected after 24h+ uptime tests.
 
@@ -868,15 +919,18 @@ Device reboots immediately.
 ## Project Structure
 
 ```
-clock_ntp_ota_v1.9/
-├── clock_ntp_ota_v1.9.ino          # Main firmware (2,096 lines)
-├── v1.9_RELEASE_NOTES.md           # Detailed changelog
-├── v1.9.1_HYBRID_FIX.md            # WiFi startup fix documentation
-├── README.md                       # This file
-└── build/
-    ├── clock_ntp_ota_v1.9.ino.bin  # Compiled firmware
-    ├── clock_ntp_ota_v1.9.ino.elf  # Debug symbols
-    └── clock_ntp_ota_v1.9.ino.map  # Memory map
+esp8266-weather-clock/
+├── firmware/
+│   └── clock_ntp_ota_v1.9/
+│       └── clock_ntp_ota_v1.9.ino  # Main firmware (~2,100 lines)
+├── docs/
+│   ├── HARDWARE.md                 # Hardware specifications
+│   ├── INSTALLATION.md             # Flashing guide
+│   ├── v1.9_RELEASE_NOTES.md       # v1.9.0 async refactoring
+│   ├── v1.9.1_HYBRID_FIX.md        # WiFi startup fix
+│   └── v1.9.2_WIFI_RESILIENCE.md   # WiFi resilience documentation
+├── CHANGELOG.md                    # Version history
+└── README.md                       # This file
 ```
 
 ---
@@ -909,7 +963,6 @@ Now go make something cool. 🚀
 
 **P.S.**: If you found this useful, consider starring the repo. If you found a bug, open an issue. If you want to add Home Assistant screens, let's collaborate - I'm planning that next!
 
-**Built with**: Claude Code (Opus 4.5)
 **Author**: apetrochenko
-**Date**: 2026-01-03
-**Firmware Version**: v1.9.1 (Production Ready)
+**Date**: 2026-01-06
+**Firmware Version**: v1.9.2 (Production Ready)

@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.2] - 2026-01-06
+
+### Fixed
+- **CRITICAL**: WiFi credentials no longer cleared on connection failure
+  - Previous behavior erased SSID/password after failed connection attempts
+  - Now credentials persist indefinitely through WiFi outages
+- OTA update credential loss issue (SDK credentials now tried first, then EEPROM)
+
+### Added
+- **WiFi Resilience**: Infinite retry with exponential backoff (5s → 10s → 20s → ... → 5min max)
+- **Fallback AP**: "TJ56654-Setup" enabled after ~5 min of failed attempts
+  - Device continues retry attempts while AP is active (dual STA+AP mode)
+  - AP automatically disabled when WiFi reconnects
+- **"No WiFi" display**: Shows retry countdown instead of numeric counter
+- **"!" indicator**: Shown in date line when WiFi is disconnected
+- **SDK credentials support**: Tries WiFiManager-stored credentials first
+
+### Changed
+- Clock continues running with last synced time during WiFi outages
+- Improved user experience during network failures
+- Removed aggressive credential clearing behavior
+
+### Network Activity
+- NTP sync: 1 hour interval (pool.ntp.org:123 UDP)
+- Weather fetch: 30 min interval (api.open-meteo.com HTTP)
+- mDNS: continuous (224.0.0.251 UDP multicast)
+- ~50 requests/day total
+
 ## [1.9.1] - 2026-01-03
 
 ### Fixed
@@ -117,7 +145,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Full v1.9 Release Notes](docs/v1.9_RELEASE_NOTES.md)
 - [v1.9.1 Hybrid Fix Details](docs/v1.9.1_HYBRID_FIX.md)
+- [v1.9.2 WiFi Resilience](docs/v1.9.2_WIFI_RESILIENCE.md)
 
 ---
 
-**Status**: v1.9.1 is production-ready and actively used 24/7.
+**Status**: v1.9.2 is production-ready and actively used 24/7.
